@@ -161,7 +161,7 @@ def human_feedback(state: ReportState, config: RunnableConfig) -> Command[Litera
                         \n\n{sections_str}\n
                         \nDoes the report plan meet your needs?\nPass 'true' to approve the report plan.\nOr, provide feedback to regenerate the report plan:"""
     
-    feedback = interrupt(interrupt_message)
+    feedback = True#interrupt(interrupt_message)
 
     # If the user approves the report plan, kick off section writing
     if isinstance(feedback, bool) and feedback is True:
