@@ -19,22 +19,22 @@ def run_one(PROMPT):
     return last
 
 if __name__ == '__main__':
-    prompts = [row for row in csv.reader(open("neurips25-simeng-open-deep-research.csv", "r", encoding = "ISO-8859-1")) if row[0] != "ID"]
+    prompts = [row for row in csv.reader(open("neurips25-simeng-open-deep-research.csv", "r", encoding = "ISO-8859-1")) if "ID" not in row[0]]
 
     results = []
     for p in prompts:
-        base_prompt = p[2] + "\n\nDo not cite: " + p[1]
-        remove_first = f"""{base_prompt}
+        base_prompt = p[2]
+        remove_first = f"""{p[3]}
 
-    Do not use the fact: {p[4]}
+    Do not use the fact: {p[-5]}
     """
-        remove_second = f"""{base_prompt}
+        remove_second = f"""{p[4]}
 
-    Do not use the fact: {p[5]}
+    Do not use the fact: {p[-4]}
     """
-        p[6] = run_one(base_prompt)['compile_final_report']['final_report']
-        p[7] = run_one(remove_first)['compile_final_report']['final_report']
-        p[8] = run_one(remove_second)['compile_final_report']['final_report']
+        p[-3] = run_one(base_prompt)['compile_final_report']['final_report']
+        p[-2] = run_one(remove_first)['compile_final_report']['final_report']
+        p[-1] = run_one(remove_second)['compile_final_report']['final_report']
         results += [p]
         with open('eval.csv', 'w', newline='') as wfp:
             writer = csv.writer(wfp)
